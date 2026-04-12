@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection System</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🛡️ Phishing Detection System</h1>
+                <p class="subtitle">Detect fake login pages using Machine Learning</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tabs Navigation -->
+            <div class="tabs">
+                <button class="tab-button active" data-tab="single">Single URL Detection</button>
+                <button class="tab-button" data-tab="batch">Batch Detection</button>
+                <button class="tab-button" data-tab="features">Feature Analysis</button>
+                <button class="tab-button" data-tab="about">About</button>
+            </div>
+
+            <!-- Tab 1: Single URL Detection -->
+            <div id="single" class="tab-content active">
+                <div class="card">
+                    <h2>Analyze a Single Website</h2>
+                    <p class="description">Enter a URL to check if it's a phishing page</p>
+                    
+                    <div class="form-group">
+                        <label for="url-input">Website URL</label>
+                        <input 
+                            type="text" 
+                            id="url-input" 
+                            placeholder="https://example.com"
+                            class="input-field"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="html-input">HTML Content (Optional)</label>
+                        <textarea 
+                            id="html-input" 
+                            placeholder="Paste HTML content here... (optional)"
+                            class="textarea-field"
+                            rows="6"
+                        ></textarea>
+                        <small>Leave empty to auto-fetch HTML from URL</small>
+                    </div>
+
+                    <button class="btn btn-primary" id="detect-btn">🔍 Detect Phishing</button>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Analyzing webpage...</p>
+                </div>
+
+                <!-- Results -->
+                <div id="results" class="card hidden">
+                    <div id="result-content"></div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Batch Detection -->
+            <div id="batch" class="tab-content">
+                <div class="card">
+                    <h2>Check Multiple URLs</h2>
+                    <p class="description">Enter multiple URLs (one per line) to check them all at once</p>
+                    
+                    <div class="form-group">
+                        <label for="batch-urls">URLs (one per line)</label>
+                        <textarea 
+                            id="batch-urls" 
+                            placeholder="https://example1.com&#10;https://example2.com&#10;https://example3.com"
+                            class="textarea-field"
+                            rows="10"
+                        ></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" id="batch-detect-btn">🔄 Check All URLs</button>
+                </div>
+
+                <!-- Batch Results -->
+                <div id="batch-results" class="card hidden">
+                    <h3>Results Summary</h3>
+                    <div id="batch-summary" class="summary-grid"></div>
+                    <div id="batch-detail" class="batch-detail"></div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Feature Analysis -->
+            <div id="features" class="tab-content">
+                <div class="card">
+                    <h2>Analyze Extracted Features</h2>
+                    <p class="description">See detailed features extracted from a URL</p>
+                    
+                    <div class="form-group">
+                        <label for="feature-url">URL</label>
+                        <input 
+                            type="text" 
+                            id="feature-url" 
+                            placeholder="https://example.com"
+                            class="input-field"
+                        >
+                    </div>
+
+                    <button class="btn btn-primary" id="analyze-features-btn">📊 Extract Features</button>
+                </div>
+
+                <!-- Features Display -->
+                <div id="features-results" class="card hidden">
+                    <h3>Extracted Features</h3>
+                    <div id="features-content"></div>
+                </div>
+            </div>
+
+            <!-- Tab 4: About -->
+            <div id="about" class="tab-content">
+                <div class="card">
+                    <h2>About This System</h2>
+                    <h3>How It Works</h3>
+                    <ul class="feature-list">
+                        <li><strong>URL Analysis:</strong> Examines URL structure, domain, protocol, special characters</li>
+                        <li><strong>HTML Analysis:</strong> Analyzes forms, input fields, links, scripts, keywords</li>
+                        <li><strong>Machine Learning:</strong> Uses a Random Forest classifier trained on phishing indicators</li>
+                        <li><strong>Risk Scoring:</strong> Provides confidence scores and identifies suspicious features</li>
+                    </ul>
+
+                    <h3>Key Detection Features</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <h4>🔗 URL Features</h4>
+                            <ul>
+                                <li>Domain and URL length</li>
+                                <li>Special characters (@, //)</li>
+                                <li>IP addresses in URL</li>
+                                <li>HTTPS presence</li>
+                                <li>Subdomains</li>
+                            </ul>
+                        </div>
+                        <div class="feature-item">
+                            <h4>📄 HTML Features</h4>
+                            <ul>
+                                <li>Number of forms and input fields</li>
+                                <li>Password fields</li>
+                                <li>Form action URLs</li>
+                                <li>Suspicious keywords</li>
+                                <li>External links</li>
+                            </ul>
+                        </div>
+                        <div class="feature-item">
+                            <h4>⚠️ Risk Indicators</h4>
+                            <ul>
+                                <li>Mismatched domains</li>
+                                <li>No HTTPS connection</li>
+                                <li>Multiple password fields</li>
+                                <li>Redirect characters</li>
+                                <li>Unusual ports</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3>Model Information</h3>
+                    <div id="model-info-div" class="model-info">
+                        <p>Loading model information...</p>
+                    </div>
+
+                    <h3>Limitations</h3>
+                    <ul>
+                        <li>Detection accuracy depends on training data</li>
+                        <li>Sophisticated phishing pages may evade detection</li>
+                        <li>JavaScript-heavy pages require separate HTML analysis</li>
+                        <li>Use in combination with browser security features</li>
+                    </ul>
+
+                    <h3>Technologies Used</h3>
+                    <ul>
+                        <li>Python Flask - Backend server</li>
+                        <li>scikit-learn - Machine Learning</li>
+                        <li>BeautifulSoup - HTML parsing</li>
+                        <li>Vanilla JavaScript - Frontend</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Phishing Detection System v1.0 | 🛡️ Stay Safe Online</p>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

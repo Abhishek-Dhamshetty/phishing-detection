@@ -1,0 +1,10 @@
+echo ".venv/
+__pycache__/
+*.pyc
+.DS_Store
+*.pkl
+.env
+.vscode/
+node_modules/
+dist/
+build/" > /Users/abhishekdhamshetty/Desktop/cyber/.gitignore
