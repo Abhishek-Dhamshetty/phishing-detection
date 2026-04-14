@@ -7,5 +7,6 @@ requests==2.31.0
 beautifulsoup4==4.12.2
 lxml==4.9.3
 urllib3==2.0.4
-whois==0.9.7
-python-dateutil==2.8.2
+gunicorn==21.2.0
+setuptools==68.0.0
+wheel==0.41.0
